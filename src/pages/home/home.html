@@ -1,14 +1,54 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Form Validation
     </ion-title>
   </ion-navbar>
 </ion-header>
-
+ 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+ 
+  <form [formGroup]="myForm" (ngSubmit)="submit()" novalidate>
+    
+    <ion-item no-padding [class.invalid]="(!myForm.controls.name.valid) && isName">
+        <ion-label color="primary" stacked>Name*</ion-label>
+      <ion-input type="text" (keyup)="validate('name')" formControlName="name" placeholder="Please enter your Name" ></ion-input>
+    </ion-item>
+    <p *ngIf="myForm.get('name').errors && myForm.get('name').dirty" >
+      <span style="color: red" ion-text *ngIf="myForm.get('name').hasError('required')">Field is required</span>
+    </p>
+ 
+    <ion-item no-padding [class.invalid]="(!myForm.controls.email.valid) && isEmail">
+        <ion-label color="primary" stacked>Email</ion-label>
+      <ion-input type="email" (keyup)="validate('email')" formControlName="email" placeholder="Please enter your Email" ></ion-input>
+    </ion-item>
+    <p *ngIf="myForm.get('email').errors && myForm.get('email').dirty" >
+      <span style="color: red" ion-text *ngIf="myForm.get('email').hasError('required')">Field is required</span>
+      <span style="color: red" ion-text *ngIf="myForm.get('email').hasError('email')">It is not an email</span>
+    </p>
+ 
+    <ion-item no-padding [class.invalid]="(!myForm.controls.phone.valid) && isPhone">
+        <ion-label color="primary" stacked>Phone</ion-label>
+      <ion-input type="number" (keyup)="validate('phone')" formControlName="phone" placeholder="Please enter your Number" ></ion-input>
+    </ion-item>
+    <p *ngIf="myForm.get('phone').errors && myForm.get('phone').dirty" >
+      <span style="color: red" ion-text *ngIf="myForm.get('phone').hasError('required')">Field is required, </span>
+      <span style="color: red" ion-text *ngIf="myForm.get('phone').hasError('maxlength')">Max of 10 characters</span>
+    </p>
+ 
+    <ion-item no-padding [class.invalid]="(!myForm.controls.password.valid) && isPassword">
+        <ion-label color="primary" stacked>Password</ion-label>
+      <ion-input type="text" (keyup)="validate('password')" formControlName="password" placeholder="Password (min 6 character)" ></ion-input>
+    </ion-item>
+    <p *ngIf="myForm.get('password').errors && myForm.get('password').dirty" >
+      <span style="color: red" ion-text *ngIf="myForm.get('password').hasError('required')">Field is required, </span>
+      <span style="color: red" ion-text *ngIf="myForm.get('password').hasError('maxlength')">minimum 6 characters require</span>
+    </p>
+ 
+    <button ion-button block round style="margin-top: 15px;" type="submit" [disabled]="myForm.invalid">
+        SUBMIT
+    </button>
+    
+  </form>
+ 
 </ion-content>
